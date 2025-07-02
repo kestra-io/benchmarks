@@ -1,11 +1,11 @@
-# Benchmark 03 - Realtime trigger with a transformation
+# Benchmark 04 - Realtime trigger with a transformation
 
 ## The flow
 
 Here is the flow YAML:
 
 ```yaml
-id: benchmark03
+id: benchmark04
 namespace: company.team
 
 triggers:
