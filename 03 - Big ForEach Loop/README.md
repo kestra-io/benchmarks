@@ -24,7 +24,7 @@ This flow will create a lot of task runs. It will lead to a big execution contex
 
 ## Benchmarking
 
-To test it, launch it 3 to 5 times and record the better execution time.
+To test it, launch it 5 times and record the better execution time.
 You need to run it multiple times to warmup Kestra to peak performance.
 
 ## Cleaning

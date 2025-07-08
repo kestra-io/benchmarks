@@ -84,14 +84,14 @@ This is an example of a flow with a lot of orchestration tasks in it, so it will
 To benchmark this flow, we will use the Vegeta load generator which is a command line tool capable to put load on an HTTP URL at a constant rate.
 Vegeta will be used from an external machine to avoid any potential interaction between the load testing tool and the machine executing Kestra.
 
-First, let's warmup our Kestra instance a little by starting executions during 1mn at a rate of 10 executions/s:
+First, let's warmup our Kestra instance a little by starting executions during 3mn at a rate of 100 executions/mn:
 ```shell
-echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark02/benchmark" | vegeta attack -rate=10/s -duration 60s > result.gob
+echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark02/benchmark" | vegeta attack -rate=100/m -duration 3m > result.gob
 ```
 
-Then, generate load at your expected executions per second, for example, again at 10 executions/s:
+Then, generate load at your expected executions per second, for example, again at 100 executions/mn, during 5mn:
 ```shell
-echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark02/benchmark" | vegeta attack -rate=10/s -duration 60s > result.gob
+echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark02/benchmark" | vegeta attack -rate=100/m -duration 5m > result.gob
 ```
 
 Finally, record the average execution time of your executions.

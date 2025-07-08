@@ -49,23 +49,33 @@ You can find example files with 1, 10 and 100 product items in the [resources](r
 
 ## Benchmarking
 
-First, let's warmup our Kestra instance a little by starting executions during 1mn at a rate of 10 executions/s:
+First, let's warmup our Kestra instance a little by starting executions during 3mn at a rate of 10 executions/s:
 
 ```shell
 ./kafka-producer-perf-test.sh --topic test_kestra --payload-file test.json \
-  --num-records 600 --throughput 10 --producer-props bootstrap.servers=localhost:9092
+  --num-records 1800 --throughput 10 --producer-props bootstrap.servers=localhost:9092
 ```
 
-Then, generate load at your expected executions per second, for example again at 10 executions/s:
+Then, generate load at your expected executions per second, for example, again at 10 executions/s, for 5mn:
 
 ```shell
 ./kafka-producer-perf-test.sh --topic test_kestra --payload-file test.json \
-  --num-records 600 --throughput 10 --producer-props bootstrap.servers=localhost:9092
+  --num-records 3000 --throughput 10 --producer-props bootstrap.servers=localhost:9092
 ```
 
 Finally, record the average execution time of your executions.
-You can approximate that by looking at the execution list inside the UI and approximate the duration of the most recent ones.
+You can approximate that by looking at the execution list inside the UI and approximate the duration of the most recent ones or execute a query directly on the database.
+
+Between each load generation, it's better to delete all executions to avoid increasing the size of the database.
+
+```sql
+select avg(state_duration) from executions;
+```
 
 ## Cleaning
 
-TODO 
+Between each load generation, it's better to delete all executions to avoid increasing the size of the database.
+
+```sql
+delete from executions;
+```

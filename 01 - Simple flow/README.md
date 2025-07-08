@@ -1,4 +1,4 @@
-# Benchmark 01 - Simple flow with a webhook
+# Benchmark 01 - Simple flow
 
 ## The flow
 
@@ -35,14 +35,14 @@ This flow contains two tasks that should execute really quickly, the goal is to 
 To benchmark this flow, we will use the Vegeta load generator which is a command line tool capable to put load on an HTTP URL at a constant rate.
 Vegeta will be used from an external machine to avoid any potential interaction between the load testing tool and the machine executing Kestra.
 
-First, let's warmup our Kestra instance a little by starting executions during 1mn at a rate of 10 executions/s:
+First, let's warmup our Kestra instance a little by starting executions during 3mn at a rate of 500 executions/mn:
 ```shell
-echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark01/benchmark" | vegeta attack -rate=10/s -duration 60s > result.gob
+echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark01/benchmark" | vegeta attack -rate=500/m -duration 3m > result.gob
 ```
 
-Then, generate load at your expected executions per second, for example, again at 10 executions/s:
+Then, generate load at your expected executions per second, for example, again at 500 executions/mn, during 5mn:
 ```shell
-echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark01/benchmark" | vegeta attack -rate=10/s -duration 60s > result.gob
+echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark01/benchmark" | vegeta attack -rate=500/m -duration 5m > result.gob
 ```
 
 Finally, record the average execution time of your executions.
@@ -61,27 +61,3 @@ Between each load generation, it's better to delete all executions to avoid incr
 ```sql
 delete from executions;
 ```
-
-2 threads
----------
-10 exec/s: 260ms
-20 exec/s: 16s
-30 exec/s: 50s
-=> Kestra CPU utilization: 20%
-=> BDD  CPU utilization: 70% max (certainly due to cold start in part)
-
-4 threads
----------
-10 exec/s: 240ms
-20 exec/s: 3s
-30 exec/s: 50s
-=> Kestra CPU utilization: 40%
-=> BDD  CPU utilization: 60% max
-
-8 threads
----------
-10 exec/s: 180ms
-20 exec/s: 400ms
-30 exec/s: 25s
-=> Kestra CPU utilization: 40%
-=> BDD  CPU utilization: ? max

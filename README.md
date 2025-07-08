@@ -48,7 +48,7 @@ sudo docker run --pull=always --rm -it -p 8080:8080 --user=root \
 ```
 
 ## Benchmarks
-* [Simple flow with a webhook](01%20-%20Simple%20flow%20with%20a%20webhook)
+* [Simple flow](01%20-%20Simple%20flow)
 * [Complex flow](02%20-%20Complex%20flow)
 * [Big ForEach Loop](03%20-%20Big%20ForEach%20Loop)
 * [Realtime trigger with a transformation](03%20-%20Realtime%20trigger%20with%20a%20transformation)
