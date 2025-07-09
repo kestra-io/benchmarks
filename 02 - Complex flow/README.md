@@ -97,16 +97,44 @@ echo "GET http://server:port/api/v1/executions/webhook/benchmarks/benchmark02/be
 Finally, record the average execution time of your executions.
 You can approximate that by looking at the execution list inside the UI and approximate the duration of the most recent ones or execute a query directly on the database.
 
-Between each load generation, it's better to delete all executions to avoid increasing the size of the database.
-
+Here is the query on JDBC:
 ```sql
 select avg(state_duration) from executions;
+```
+
+Here is the query on Elasticsearch (Kibana style):
+```json
+POST /kestra_executions/_search
+{
+    "query": {
+        "match_all": {}
+    },
+    "size": 0,
+    "aggs": {
+      "avg_dration": {
+        "avg": {
+            "field": "state.duration"
+        }
+      }
+    }
+}
 ```
 
 ## Cleaning
 
 Between each load generation, it's better to delete all executions to avoid increasing the size of the database.
 
+Here is the query on JDBC:
 ```sql
 delete from executions;
+```
+
+Here is the query on Elasticsearch (Kibana style):
+```json
+POST /kestra_executions/_delete_by_query
+{
+    "query": {
+        "match_all": {}
+    }
+}
 ```
