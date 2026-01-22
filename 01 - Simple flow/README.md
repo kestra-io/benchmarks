@@ -62,7 +62,7 @@ POST /kestra_executions/_search
     },
     "size": 0,
     "aggs": {
-      "avg_dration": {
+      "avg_duration": {
         "avg": {
             "field": "state.duration"
         }
